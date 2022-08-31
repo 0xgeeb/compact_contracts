@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "../../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import "../../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract comSushiToken is ERC20("comSushiToken", "comSUSHI"), Ownable {
+contract ccSushiToken is ERC20("ccSushiToken", "ccSUSHI"), Ownable {
 
   uint32 public constant MINT_LIMIT = 1000000;
   address public immutable makerAddress;
@@ -14,7 +14,7 @@ contract comSushiToken is ERC20("comSushiToken", "comSUSHI"), Ownable {
   }
 
   modifier onlyMaker() {
-    require(msg.sender == makerAddress, "only comSushiMaker can mint comSUSHI tokens");
+    require(msg.sender == makerAddress, "only ccSushiMaker can mint ccSUSHI tokens");
     _;
   }
 
@@ -22,7 +22,5 @@ contract comSushiToken is ERC20("comSushiToken", "comSUSHI"), Ownable {
     require(totalSupply() + _amount <= MINT_LIMIT, "will exceed the mint limit");
     _mint(_to, _amount);
   }
-
-
 
 }
