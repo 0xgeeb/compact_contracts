@@ -8,9 +8,6 @@ contract ccSushiBar is ERC20("ccSushiBar", "ccxSUSHI") {
 
   IERC20 public ccSushi;
 
-  uint256 public ccSushiBal = ccSushi.balanceOf(address(this));
-  uint256 public ccxSushiBal = totalSupply();
-
   mapping(address => uint256) public balances;
 
   constructor(IERC20 _ccSushi) {
@@ -18,6 +15,8 @@ contract ccSushiBar is ERC20("ccSushiBar", "ccxSUSHI") {
   }
 
   function enter(uint256 _amount) public {
+    uint256 ccSushiBal = ccSushi.balanceOf(address(this));
+    uint256 ccxSushiBal = totalSupply();
     if (ccxSushiBal == 0 || ccSushiBal == 0) {
       _mint(msg.sender, _amount);
     }
@@ -29,6 +28,8 @@ contract ccSushiBar is ERC20("ccSushiBar", "ccxSUSHI") {
   }
 
   function leave(uint256 _amount) public {
+    uint256 ccSushiBal = ccSushi.balanceOf(address(this));
+    uint256 ccxSushiBal = totalSupply();
     uint256 ccAmount = (_amount * ccSushiBal) / ccxSushiBal;
     _burn(msg.sender, _amount);
     ccSushi.transfer(msg.sender, ccAmount);

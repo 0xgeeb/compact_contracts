@@ -5,7 +5,7 @@ import "../../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 contract ccSushiToken is ERC20("ccSushiToken", "ccSUSHI") {
 
-  uint256 public constant MINT_LIMIT = 99360;
+  uint256 public constant MINT_LIMIT = 999360;
   address public immutable makerAddress;
 
   constructor(address _makerAddress) {
