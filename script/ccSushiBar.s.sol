@@ -2,13 +2,13 @@
 pragma solidity ^0.8.9;
 
 import "../lib/forge-std/src/Script.sol";
-import "../src/ccSushi/ccSushiToken.sol";
+import "../src/ccSushi/ccSushiBar.sol";
 
-contract ccSushiTokenScript is Script {
+contract ccSushiBarScript is Script {
 
   function run() public {
     vm.startBroadcast();
-    ccSushiToken ccsushitoken = new ccSushiToken(0x5FbDB2315678afecb367f032d93F642f64180aa3);
+    ccSushiBar ccsushibar = new ccSushiBar();
     vm.stopBroadcast();
   }
 }
