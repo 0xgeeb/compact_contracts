@@ -23,7 +23,7 @@ contract ccSushiMaker is Ownable {
     _;
   }
 
-  function updateEmissions() public timeLock {
+  function updateEmissions() public timeLock() {
     uint256 _emitAmount= _getEmissions();
     prevEmission = block.timestamp;
     ccsushitoken.mint(ccsushibar, _emitAmount);

@@ -17,7 +17,7 @@ contract ccSushiToken is ERC20("ccSushiToken", "ccSUSHI") {
     _;
   }
 
-  function mint(address _to, uint256 _amount) public onlyMaker {
+  function mint(address _to, uint256 _amount) public onlyMaker() {
     require(totalSupply() + _amount <= MINT_LIMIT, "will exceed the mint limit");
     _mint(_to, _amount);
   }
