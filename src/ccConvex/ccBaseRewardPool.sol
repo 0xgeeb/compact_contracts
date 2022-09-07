@@ -9,6 +9,10 @@ contract BaseRewardPool{
   IERC20 public stakingToken;
 
   uint256 private _totalSupply;
+  uint256 public rewardPerTokenStored;
+  uint256 public periodFinish = 0;
+  uint256 public rewardRate = 0;
+  uint256 public lastUpdateTime;
   address public operator;
 
   mapping(address => uint256) public userRewardPerTokenPaid;
@@ -29,8 +33,57 @@ contract BaseRewardPool{
     return _balances[_account];
   }
 
+  modifier updateReward(address _account) {
+    rewardPerTokenStored = rewardPerToken();
+    lastUpdateTime = lastTimeRewardApplicable();
+    if (_account != address(0)) {
+      rewards[_account] = earned(_account);
+      userRewardPerTokenPaid[_account] = rewardPerTokenStored;
+    }
+    _;
+  }
+
+  function lastTimeRewardApplicable() public view returns (uint256) {
+    if (block.timestamp > periodFinish) {
+      return periodFinish;
+    }
+    else {
+      return block.timestamp;
+    }
+  }
+
+  function rewardPerToken() public view returns (uint256) {
+    if (totalSupply() == 0) {
+      return rewardPerTokenStored;
+    }
+    return rewardPerTokenStored + lastTimeRewardApplicable() - lastUpdateTime * rewardRate * 1e18 / totalSupply();
+  }
+
   function earned(address _account) public view returns (uint256) {
-    // return balanceOf(_account) * rewardPerToken() - userRewardPerTokenPaid[_account] / 1e18 + rewards[_account];
+    return balanceOf(_account) * rewardPerToken() - userRewardPerTokenPaid[_account] / 1e18 + rewards[_account];
+  }
+
+  function stake(uint256 _amount) public updateReward(msg.sender) returns (bool) {
+    require(_amount > 0, "have to stake something");
+    _totalSupply += _amount;
+    _balances[msg.sender] += _amount;
+    stakingToken.transferFrom(msg.sender, address(this), _amount);
+    return true;
+  }
+
+  function withdraw(uint256 _amount, bool _claim) public updateReward(msg.sender) returns (bool) {
+    require(_amount > 0, "have to withdraw something");
+    _totalSupply -= _amount;
+    _balances[msg.sender] -= _amount;
+    stakingToken.transfer(msg.sender, _amount);
+    if (_claim) {
+      getReward(msg.sender, true);
+    }
+    return true;
+  }
+
+  function getReward(address _account, bool _claimExtras) public updateReward(_account) returns (bool) {
+    
   }
 
 }
