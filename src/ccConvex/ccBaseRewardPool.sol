@@ -56,11 +56,11 @@ contract BaseRewardPool{
     if (totalSupply() == 0) {
       return rewardPerTokenStored;
     }
-    return rewardPerTokenStored + lastTimeRewardApplicable() - lastUpdateTime * rewardRate * 1e18 / totalSupply();
+    return rewardPerTokenStored + (lastTimeRewardApplicable() - lastUpdateTime * rewardRate * 1e18 / totalSupply());
   }
 
   function earned(address _account) public view returns (uint256) {
-    return balanceOf(_account) * rewardPerToken() - userRewardPerTokenPaid[_account] / 1e18 + rewards[_account];
+    return balanceOf(_account) * (rewardPerToken() - userRewardPerTokenPaid[_account]) / 1e18 + rewards[_account];
   }
 
   function stake(uint256 _amount) public updateReward(msg.sender) returns (bool) {
@@ -77,13 +77,18 @@ contract BaseRewardPool{
     _balances[msg.sender] -= _amount;
     stakingToken.transfer(msg.sender, _amount);
     if (_claim) {
-      getReward(msg.sender, true);
+      getReward();
     }
     return true;
   }
 
-  function getReward(address _account, bool _claimExtras) public updateReward(_account) returns (bool) {
-    
+  function getReward() public updateReward(msg.sender) returns (bool) {
+    uint256 reward = earned(msg.sender);
+    if (reward > 0) {
+      rewards[msg.sender] = 0;
+      rewardToken.transfer(msg.sender, reward);
+    }
+    return true;
   }
 
 }
