@@ -37,7 +37,6 @@ contract ccSushiBarTest is Test {
     vm.prank(jeff);
     ccsushibar.enter(10);
     deal(address(ccsushitoken), address(ccsushibar), 20);
-    console.log(ccsushitoken.balanceOf(address(ccsushibar)));
     vm.prank(jeff);
     ccsushibar.leave(10);
     assertEq(ccsushitoken.balanceOf(address(ccsushibar)), 0);
