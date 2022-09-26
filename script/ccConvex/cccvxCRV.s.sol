@@ -2,15 +2,16 @@
 pragma solidity ^0.8.9;
 
 import "../../lib/forge-std/src/Script.sol";
-import "../../src/ccSushi/ccSushiBar.sol";
+import "../../src/ccConvex/cccvxCRV.sol";
 
-contract ccSushiBarScript is Script {
+contract cccvxCRVScript is Script {
 
-  ccSushiBar ccsushibar;
+  cccvxCRV cccvxcrv;
 
   function run() public {
     vm.startBroadcast();
-    ccsushibar = new ccSushiBar();
+    cccvxcrv = new cccvxCRV();
     vm.stopBroadcast();
   }
+
 }

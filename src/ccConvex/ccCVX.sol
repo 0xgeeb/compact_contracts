@@ -20,7 +20,7 @@ contract ccCVX is ERC20("ccConvex Token", "ccCVX") {
     _;
   }
 
-  function mint(address _to, uint256 _amount) public onlyOperator() {
+  function mint(address _to, uint256 _amount) public onlyOperator() returns (uint256) {
     uint256 supply = totalSupply();
     uint256 cliff = supply / reductionPerCliff;
     if (cliff < totalCliffs) {
@@ -32,6 +32,7 @@ contract ccCVX is ERC20("ccConvex Token", "ccCVX") {
       }
       _mint(_to, _amount);
     }
+    return _amount;
   }
 
 }

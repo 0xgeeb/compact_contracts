@@ -6,9 +6,11 @@ import "../../src/ccSushi/ccSushiMaker.sol";
 
 contract ccSushiMakerScript is Script {
 
+  ccSushiMaker ccsushimaker;
+
   function run() public {
     vm.startBroadcast();
-    ccSushiMaker ccsushimaker = new ccSushiMaker();
+    ccsushimaker = new ccSushiMaker();
     vm.stopBroadcast();
   }
 }
