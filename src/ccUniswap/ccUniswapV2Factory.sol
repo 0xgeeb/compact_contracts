@@ -21,12 +21,5 @@ contract ccUniswapV2Factory {
     getPair[_tokenB][_tokenA] = _pair;
     allPairs.push(_pair);
   }
-
-
-
-
-
-
-
   
 }
