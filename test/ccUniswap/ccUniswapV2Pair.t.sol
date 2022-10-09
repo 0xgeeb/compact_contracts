@@ -10,17 +10,8 @@ contract ccUniswapV2PairTest is Test {
 
   function setUp() public {
     ccuniswapv2pair = new ccUniswapV2Pair();
-    vm.warp(1123123423452);
   }
 
-  function testTimestamp() public {
-    uint256 result = ccuniswapv2pair.timestamp();
-    console.log(result);
-  }
 
-  function testTimestampModified() public {
-    uint32 result = ccuniswapv2pair.timestampModified();
-    console.log(result);
-  }
 
 }
