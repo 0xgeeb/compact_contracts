@@ -77,6 +77,23 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     _update(_balance0, _balance1);
   }
 
+  function burn(address _to) public lock returns (uint256 amount0, uint256 amount1) {
+    (uint256 _reserve0, uint256 _reserve1) = getReserves();
+    uint256 _balance0 = IERC20(token0).balanceOf(address(this));
+    uint256 _balance1 = IERC20(token1).balanceOf(address(this));
+    uint256 liquidity = balanceOf(address(this));
+    uint256 _totalSupply = totalSupply();
+    amount0 = (liquidity * _balance0) / _totalSupply;
+    amount1 = (liquidity * _balance1) / _totalSupply;
+    require(amount0 > 0 && amount1 > 0, "insufficient liquidity burned");
+    _burn(address(this), liquidity);
+    IERC20(token0).transfer(_to, amount0);
+    IERC20(token1).transfer(_to, amount1);
+    _balance0 = IERC20(token0).balanceOf(address(this));
+    _balance1 = IERC20(token1).balanceOf(address(this));
+    _update(_balance0, _balance1);
+  }
+
   function _update(uint256 _balance0, uint256 _balance1) private {
     reserve0 = _balance0;
     reserve1 = _balance1;
