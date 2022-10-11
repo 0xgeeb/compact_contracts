@@ -78,7 +78,6 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
   }
 
   function burn(address _to) public lock returns (uint256 amount0, uint256 amount1) {
-    (uint256 _reserve0, uint256 _reserve1) = getReserves();
     uint256 _balance0 = IERC20(token0).balanceOf(address(this));
     uint256 _balance1 = IERC20(token1).balanceOf(address(this));
     uint256 liquidity = balanceOf(address(this));
@@ -91,6 +90,29 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     IERC20(token1).transfer(_to, amount1);
     _balance0 = IERC20(token0).balanceOf(address(this));
     _balance1 = IERC20(token1).balanceOf(address(this));
+    _update(_balance0, _balance1);
+  }
+
+  function swap(uint256 _amount0out, uint256 _amount1out, address _to) public lock {
+    require(_amount0out > 0 || _amount1out > 0, "insufficient output amount");
+    (uint256 _reserve0, uint256 _reserve1) = getReserves();
+    require(_amount0out < _reserve0 && _amount1out < _reserve1, "insufficient liquidity");
+    uint256 _balance0;
+    uint256 _balance1;
+    address _token0 = token0;
+    address _token1 = token1;
+    require(_to != _token0 && _to != _token1, "invalid to");
+    if (_amount0out > 0) {
+      IERC20(_token0).transfer(_to, _amount0out);
+    }
+    if (_amount1out > 0) {
+      IERC20(_token1).transfer(_to, _amount1out);
+    }
+    _balance0 = IERC20(_token0).balanceOf(address(this));
+    _balance1 = IERC20(_token1).balanceOf(address(this));
+    uint256 _amount0in = _balance0 > _reserve0 - _amount0out ? _balance0 - (_reserve0 - _amount0out) : 0;
+    uint256 _amount1in = _balance1 > _reserve1 - _amount1out ? _balance1 - (_reserve1 - _amount1out) : 0;
+    require(_amount0in > 0 || _amount1in > 0, "insufficient input amount");
     _update(_balance0, _balance1);
   }
 
