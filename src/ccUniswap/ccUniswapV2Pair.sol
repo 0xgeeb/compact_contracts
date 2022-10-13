@@ -31,9 +31,9 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
   address public token0;
   address public token1;
 
-  uint256 private reserve0;
-  uint256 private reserve1;
-  uint256 private blockTimestampLast;
+  uint256 public reserve0;
+  uint256 public reserve1;
+  uint256 public blockTimestampLast;
 
   uint private unlocked = 1;
   modifier lock() {
