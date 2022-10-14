@@ -22,10 +22,9 @@ contract ccUniswapV2PairTest is Test {
   }
 
   function testInitialize() public {
-    // vm.prank(ccuniswapv2pair.factory.address);
     ccuniswapv2pair.initialize(tokenA, tokenB);
-    assertEq(ccuniswapv2pair.token0.address, tokenA);
-    assertEq(ccuniswapv2pair.token1.address, tokenB);
+    assertEq(ccuniswapv2pair.token0(), tokenA);
+    assertEq(ccuniswapv2pair.token1(), tokenB);
   }
 
 }

@@ -121,6 +121,5 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     reserve1 = _balance1;
     blockTimestampLast = block.timestamp;
   }
-
   
 }
