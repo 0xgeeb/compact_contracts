@@ -121,5 +121,10 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     reserve1 = _balance1;
     blockTimestampLast = block.timestamp;
   }
+
+  function testBalance() public view returns (uint256) {
+    uint256 _balance0 = IERC20(token0).balanceOf(address(this));
+    return _balance0;
+  }
   
 }

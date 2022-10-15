@@ -27,4 +27,42 @@ contract ccUniswapV2PairTest is Test {
     assertEq(ccuniswapv2pair.token1(), tokenB);
   }
 
+  function testMint() public {
+    ccuniswapv2pair.initialize(tokenA, tokenB);
+    deal(address(tokenA), address(ccuniswapv2pair), 100e18, true);
+    deal(address(tokenB), address(ccuniswapv2pair), 100e18, true);
+    uint256 _liquidity = ccuniswapv2pair.mint(msg.sender);
+    console.log(_liquidity);
+  }
+
+  function testBurn() public {
+
+  }
+
+  function testSwap() public {
+
+  }
+
+  function min(uint x, uint y) internal pure returns (uint z) {
+    z = x < y ? x : y;
+  }
+
+  // babylonian method (https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
+  function sqrt(uint y) internal pure returns (uint z) {
+    if (y > 3) {
+      z = y;
+      uint x = y / 2 + 1;
+      while (x < z) {
+        z = x;
+        x = (y / x + x) / 2;
+      }
+    } else if (y != 0) {
+      z = 1;
+    }
+  }
+
+  function testTestBalance() public {
+    
+  }
+
 }
