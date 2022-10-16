@@ -30,6 +30,7 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
   address public factory;
   address public token0;
   address public token1;
+  address public zero = 0xFB38050d2dEF04c1bb5Ff21096d50cD992418be3;
 
   uint256 public reserve0;
   uint256 public reserve1;
@@ -67,7 +68,7 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     uint256 _totalSupply = totalSupply();
     if (_totalSupply == 0) {
       liquidity = Math.sqrt((_amount0 * _amount1) / MINIMUM_LIQUIDITY);
-      _mint(address(0), MINIMUM_LIQUIDITY);
+      _mint(zero, MINIMUM_LIQUIDITY);
     }
     else {
       liquidity = Math.min((_amount0 * _totalSupply) / _reserve0, (_amount1 * _totalSupply) / _reserve1);
@@ -122,9 +123,4 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     blockTimestampLast = block.timestamp;
   }
 
-  function testBalance() public view returns (uint256) {
-    uint256 _balance0 = IERC20(token0).balanceOf(address(this));
-    return _balance0;
-  }
-  
 }

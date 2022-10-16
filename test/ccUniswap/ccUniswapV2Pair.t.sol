@@ -3,16 +3,23 @@ pragma solidity ^0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 import "../../src/ccUniswap/ccUniswapV2Pair.sol";
+import "../../src/ccUniswap/ccUniswapV2ERC20.sol";
 
 contract ccUniswapV2PairTest is Test {
 
   ccUniswapV2Pair ccuniswapv2pair;
+  ccUniswapV2ERC20 ccuniswapv2erc201;
+  ccUniswapV2ERC20 ccuniswapv2erc202;
 
-  address tokenA = 0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0;
-  address tokenB = 0xBCe0Cf87F513102F22232436CCa2ca49e815C3aC;
+  address tokenA;
+  address tokenB;
 
   function setUp() public {
     ccuniswapv2pair = new ccUniswapV2Pair();
+    ccuniswapv2erc201 = new ccUniswapV2ERC20(address(ccuniswapv2pair));
+    ccuniswapv2erc202 = new ccUniswapV2ERC20(address(ccuniswapv2pair));
+    tokenA = address(ccuniswapv2erc201);
+    tokenB = address(ccuniswapv2erc202);
   }
 
   function testGetReserves() public {
@@ -31,38 +38,25 @@ contract ccUniswapV2PairTest is Test {
     ccuniswapv2pair.initialize(tokenA, tokenB);
     deal(address(tokenA), address(ccuniswapv2pair), 100e18, true);
     deal(address(tokenB), address(ccuniswapv2pair), 100e18, true);
-    uint256 _liquidity = ccuniswapv2pair.mint(msg.sender);
-    console.log(_liquidity);
+    uint256 _liquidity = ccuniswapv2pair.mint(address(this));
+    assertEq(_liquidity, 3162277660168379331);
+    assertEq(ccuniswapv2pair.balanceOf(address(this)), 3162277660168379331);
   }
 
   function testBurn() public {
-
-  }
-
-  function testSwap() public {
-
-  }
-
-  function min(uint x, uint y) internal pure returns (uint z) {
-    z = x < y ? x : y;
-  }
-
-  // babylonian method (https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
-  function sqrt(uint y) internal pure returns (uint z) {
-    if (y > 3) {
-      z = y;
-      uint x = y / 2 + 1;
-      while (x < z) {
-        z = x;
-        x = (y / x + x) / 2;
-      }
-    } else if (y != 0) {
-      z = 1;
-    }
-  }
-
-  function testTestBalance() public {
     
   }
+
+  // function testSwap() public {
+
+  // }
+
+
+
+
+
+
+
+
 
 }
