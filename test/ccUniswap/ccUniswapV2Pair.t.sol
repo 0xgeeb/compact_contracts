@@ -44,6 +44,10 @@ contract ccUniswapV2PairTest is Test {
   }
 
   function testBurn() public {
+   ccuniswapv2pair.initialize(tokenA, tokenB);
+    deal(address(tokenA), address(ccuniswapv2pair), 100e18, true);
+    deal(address(tokenB), address(ccuniswapv2pair), 100e18, true);
+    ccuniswapv2pair.mint(address(this));
     
   }
 
