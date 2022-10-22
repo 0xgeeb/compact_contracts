@@ -85,7 +85,6 @@ contract ccUniswapV2Pair is ERC20("ccUniswapV2Pair", "ccUni") {
     uint256 _totalSupply = totalSupply();
     amount0 = (liquidity * _balance0) / _totalSupply;
     amount1 = (liquidity * _balance1) / _totalSupply;
-    require(amount0 > 0 && amount1 > 0, "insufficient liquidity burned");
     _burn(address(this), liquidity);
     IERC20(token0).transfer(_to, amount0);
     IERC20(token1).transfer(_to, amount1);

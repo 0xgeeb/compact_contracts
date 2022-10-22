@@ -48,19 +48,8 @@ contract ccUniswapV2PairTest is Test {
     deal(address(tokenA), address(ccuniswapv2pair), 100e18, true);
     deal(address(tokenB), address(ccuniswapv2pair), 100e18, true);
     ccuniswapv2pair.mint(address(this));
-    
+    ccuniswapv2pair.burn(address(this));
+    assertEq(ccuniswapv2pair.balanceOf(address(this)), 3162277660168379331);
   }
-
-  // function testSwap() public {
-
-  // }
-
-
-
-
-
-
-
-
 
 }
