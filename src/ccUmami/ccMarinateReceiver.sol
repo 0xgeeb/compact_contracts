@@ -37,12 +37,21 @@ contract ccMarinateReceiver {
     }
   }
 
+  function addDistributedToken(address _token) public onlyAdmin {
+    require(distributedTokens.add(_token), "distribution token exists");
+  }
+
+  function removeDistributedToken(address _token) public onlyAdmin {
+    require(distributedTokens.remove(_token), "distribution token does not exist");
+  }
+
+  function setMarinateAddress(address _marinatev2) public onlyAdmin {
+    ccmarinatev2 = IccMarinateV2(_marinatev2);
+  }
+
   function _addRewards(address _token, uint256 _amount) private {
     IERC20(_token).approve(address(ccmarinatev2), _amount);
     ccmarinatev2.addReward(_token, _amount);
   }
-
-
-
   
 }
